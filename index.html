@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Karamina Islamic Science School</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        karamina: {
+                            DEFAULT: '#FBBF24', // Amber-400 (Gold)
+                            hover: '#D97706',   // Amber-600
+                            light: '#FEF3C7',   // Amber-100
+                            bg: '#FFFBEB',
+                        },
+                        taupe: {
+                            DEFAULT: '#4B433B', // Warna dasar gelap
+                            light: '#6D645B',   
+                            dark: '#38322C',    
+                            bg: '#F5F4F2',      // Background halaman
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'bottom-nav': '0 -4px 6px -1px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #F5F4F2; 
+            padding-bottom: 80px; 
+        }
+        
+        @media (min-width: 1024px) {
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+        /* Header Auto-Hide */
+        header {
+            transition: transform 0.3s ease-in-out, background-color 0.3s;
+        }
+        header.hide {
+            transform: translateY(-100%);
+        }
+
+        /* Nav Link Styles */
+        .nav-link {
+            position: relative;
+            color: #4B433B;
+            transition: color 0.3s;
+        }
+        .nav-link.active {
+            color: #D97706;
+            font-weight: 700;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FBBF24;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Nav Active */
+        .mobile-nav-item.active {
+            color: #D97706;
+        }
+        .mobile-nav-item.active i {
+            stroke: #D97706;
+        }
+
+        /* Hero Slideshow Animation */
+        .hero-slide-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transform: scale(1);
+            transition: opacity 1.5s ease-in-out, transform 7s linear;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1.1); 
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+            z-index: 2;
+        }
+
+        /* Page Transitions */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        .win11-list-item {
+            transition: background-color 0.2s;
+        }
+        .win11-list-item:active {
+            background-color: rgba(251, 191, 36, 0.1);
+            transform: scale(0.98);
+        }
+
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-nav {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            transition: background 0.3s;
+        }
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="font-sans text-taupe antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="bg-white/95 backdrop-blur-md text-taupe shadow-sm z-40 sticky top-0 w-full">
+        <div class="container mx-auto px-6 py-3 lg:py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" onclick="showPage('home')" class="flex items-center gap-3 group">
+                    <img src="assets/images/logo-karamina.png" alt="Logo Al-Karamina" class="h-10 lg:h-12 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    
+                    <div class="w-10 h-10 lg:w-12 lg:h-12 bg-taupe rounded-lg hidden items-center justify-center text-white font-serif font-bold text-xl lg:text-2xl shadow-lg group-hover:bg-karamina transition">A</div>
+                    <div>
+                        <h1 class="font-bold text-lg lg:text-xl leading-none text-taupe group-hover:text-karamina-hover transition">Al-Karamina</h1>
+                        <p class="text-[9px] lg:text-[10px] text-gray-500 font-bold tracking-[0.2em] uppercase">Islamic Science School</p>
+                    </div>
+                </a>
+
+                <nav class="hidden lg:flex items-center gap-8 text-sm font-medium">
+                    <button onclick="showPage('home')" class="nav-link active" id="nav-home">Beranda</button>
+                    <button onclick="showPage('profile')" class="nav-link" id="nav-profile">Profil</button>
+                    <button onclick="showPage('blog')" class="nav-link" id="nav-blog">Galeri & Berita</button>
+                    <button onclick="showPage('contact')" class="nav-link" id="nav-contact">Kontak</button>
+                    <button onclick="showPage('ppdb')" class="px-6 py-2.5 bg-taupe text-white font-bold rounded-full hover:bg-karamina hover:text-taupe transition-all shadow-lg transform hover:-translate-y-0.5">
+                        Pendaftaran
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-bottom-nav z-50 pb-safe">
+        <div class="grid grid-cols-5 h-16 items-center justify-items-center">
+            <button onclick="showPage('home')" class="mobile-nav-item active flex flex-col items-center justify-center w-full h-full text-gray-400" id="mob-home">
+                <i data-lucide="home" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-medium">Beranda</span>
+            </button>
+            <button onclick="showPage('profile')" class="mobile-nav-item flex flex-col items-center justify-center w-full h-full text-gray-400" id="mob-profile">
+                <i data-lucide="school" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-medium">Profil</span>
+            </button>
+            <div class="relative -top-5">
+                <button onclick="showPage('ppdb')" class="flex flex-col items-center justify-center w-14 h-14 bg-taupe rounded-full shadow-lg border-4 border-white text-white transform active:scale-95 transition-transform hover:bg-karamina hover:text-taupe">
+                    <i data-lucide="file-plus-2" class="w-6 h-6"></i>
+                </button>
+                 <span class="text-[10px] font-bold text-taupe absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-full text-center">Daftar</span>
+            </div>
+            <button onclick="showPage('blog')" class="mobile-nav-item flex flex-col items-center justify-center w-full h-full text-gray-400" id="mob-blog">
+                <i data-lucide="image" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-medium">Galeri</span>
+            </button>
+            <button onclick="showPage('contact')" class="mobile-nav-item flex flex-col items-center justify-center w-full h-full text-gray-400" id="mob-contact">
+                <i data-lucide="phone" class="w-6 h-6 mb-1"></i>
+                <span class="text-[10px] font-medium">Kontak</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+
+        <div id="home" class="page-section active">
+            
+            <section class="relative h-[75vh] lg:h-[90vh] min-h-[500px] flex items-center justify-center text-white px-6 overflow-hidden">
+                <div class="hero-slide-container">
+                    <div class="hero-slide active" style="background-image: url('assets/images/aiss-karamina-1.png');"></div>
+                    <div class="hero-slide" style="background-image: url('assets/images/aiss-karamina-2.png');"></div>
+                    <div class="hero-slide" style="background-image: url('assets/images/aiss-karamina-3.png');"></div>
+                    <div class="hero-slide" style="background-image: url('assets/images/aiss-karamina-4.png');"></div>
+                    <div class="hero-slide" style="background-image: url('assets/images/aiss-karamina-5.png');"></div>
+                </div>
+                <div class="hero-overlay"></div>
+                <div class="max-w-5xl mx-auto text-center relative z-10 animate-slide-up">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-md rounded-full border border-white/20 mb-6 shadow-lg">
+                        <span class="w-2 h-2 bg-karamina rounded-full animate-pulse"></span>
+                        <span class="text-xs lg:text-sm font-medium tracking-wide text-white">PENERIMAAN SISWA BARU 2025/2026</span>
+                    </div>
+                    <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-white drop-shadow-lg">
+                        Membangun Generasi<br>
+                        <span class="text-karamina italic">Cerdas & Beradab</span>
+                    </h1>
+                    <p class="text-base lg:text-xl text-white mb-8 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md">
+                        Mengintegrasikan nilai-nilai Al-Qur'an dengan keunggulan sains dan teknologi modern untuk masa depan yang gemilang.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showPage('ppdb')" class="px-8 py-4 bg-karamina hover:bg-karamina-hover text-taupe rounded-xl font-bold text-lg transition-all shadow-[0_0_20px_rgba(251,191,36,0.3)] flex items-center justify-center gap-2">
+                            Daftar Sekarang <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 bg-white relative">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="text-karamina font-bold tracking-widest text-xs uppercase">Keunggulan Kami</span>
+                        <h2 class="text-3xl lg:text-4xl font-serif font-bold text-taupe mt-2">Mengapa Memilih AISS?</h2>
+                        <div class="w-24 h-1 bg-karamina mx-auto mt-4 rounded-full"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="hover-card bg-taupe-bg p-8 rounded-2xl border border-gray-100 text-center">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md text-karamina">
+                                <i data-lucide="user-check" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-taupe mb-3">MENGAPA AISS?</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">Sekolah kami didukung oleh guru kompeten dan berdedikasi, dengan pembelajaran terpisah untuk ikhwan dan akhwat. Kami menyeimbangkan IQ, EQ, dan SQ serta mengutamakan hard skill, soft skill, dan life skill.</p>
+                        </div>
+                        <div class="hover-card bg-taupe-bg p-8 rounded-2xl border border-gray-100 text-center">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md text-karamina">
+                                <i data-lucide="shield-check" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-taupe mb-3">METODE PEMBELAJARAN</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">Sekolah kami menerapkan pembelajaran variatif dengan komunikasi aktif dalam bahasa Arab dan Inggris. Muroja'ah pagi, klinik mata pelajaran, serta metode cooperative learning.</p>
+                        </div>
+                        <div class="hover-card bg-taupe-bg p-8 rounded-2xl border border-gray-100 text-center">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-md text-karamina">
+                                <i data-lucide="brain-circuit" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-taupe mb-3">PRINSIP PEMBELAJARAN</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">Proses belajar di sekolah kami dirancang untuk membentuk siswa sesuai tujuan penciptaannya. Dengan sistem pembelajaran terintegrasi, potensi mereka berkembang maksimal.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 bg-taupe text-white relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#grid)" /></svg>
+                </div>
+                <div class="container mx-auto px-6 relative z-10">
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                        <div class="w-full md:w-auto">
+                            <span class="text-karamina font-bold tracking-widest text-xs uppercase">Kurikulum Terbaik</span>
+                            <h2 class="text-3xl lg:text-4xl font-serif font-bold mt-2">Program Unggulan</h2>
+                        </div>
+                        <p class="text-gray-300 text-sm max-w-md mt-4 md:mt-0 w-full md:w-auto">Kami merancang program khusus untuk menggali potensi siswa secara maksimal.</p>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-karamina hover:text-taupe hover:border-karamina transition duration-300 group cursor-default">
+                            <i data-lucide="book-open" class="w-8 h-8 mb-4 text-karamina group-hover:text-taupe transition"></i>
+                            <h4 class="font-bold text-lg mb-1">TAHFIDZ QURAN</h4>
+                            <p class="text-xs text-gray-400 group-hover:text-taupe/80">Program Unggulan Tahfidz adalah program untuk membentuk generasi hafidz-hafidzah.</p>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-karamina hover:text-taupe hover:border-karamina transition duration-300 group cursor-default">
+                            <i data-lucide="languages" class="w-8 h-8 mb-4 text-karamina group-hover:text-taupe transition"></i>
+                            <h4 class="font-bold text-lg mb-1">BAHASA ARAB</h4>
+                            <p class="text-xs text-gray-400 group-hover:text-taupe/80">Meningkatkan keterampilan siswa dalam berbahasa Arab secara lisan dan tulisan.</p>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-karamina hover:text-taupe hover:border-karamina transition duration-300 group cursor-default">
+                            <i data-lucide="flask-conical" class="w-8 h-8 mb-4 text-karamina group-hover:text-taupe transition"></i>
+                            <h4 class="font-bold text-lg mb-1">FUN SCIENCE</h4>
+                            <p class="text-xs text-gray-400 group-hover:text-taupe/80">Mengembangkan pengetahuan dan keterampilan sains siswa secara praktis.</p>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-karamina hover:text-taupe hover:border-karamina transition duration-300 group cursor-default">
+                            <i data-lucide="globe-2" class="w-8 h-8 mb-4 text-karamina group-hover:text-taupe transition"></i>
+                            <h4 class="font-bold text-lg mb-1">BAHASA INGGRIS</h4>
+                            <p class="text-xs text-gray-400 group-hover:text-taupe/80">Meningkatkan kemampuan berbicara, mendengarkan, membaca, maupun menulis.</p>
+                        </div>
+                         <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl hover:bg-karamina hover:text-taupe hover:border-karamina transition duration-300 group cursor-default">
+                            <i data-lucide="target" class="w-8 h-8 mb-4 text-karamina group-hover:text-taupe transition"></i>
+                            <h4 class="font-bold text-lg mb-1">PANAHAN</h4>
+                            <p class="text-xs text-gray-400 group-hover:text-taupe/80">Mengajarkan teknik dasar, konsentrasi, dan ketepatan memanah.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 bg-gray-50 border-y border-gray-200">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-serif font-bold text-taupe">Jadwal Kegiatan</h2>
+                        <p class="text-gray-500 text-sm mt-2">Disiplin waktu adalah kunci keberhasilan.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                        
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full">
+                            <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                                <h3 class="text-xl font-bold text-taupe flex items-center gap-2">
+                                    <i data-lucide="calendar-clock" class="text-karamina w-6 h-6"></i> JADWAL SEKOLAH
+                                </h3>
+                                <span class="bg-karamina/10 text-karamina-hover px-3 py-1 rounded-full text-xs font-bold">Reguler</span>
+                            </div>
+                            <div class="space-y-0 relative">
+                                <div class="absolute left-[19px] top-2 bottom-4 w-0.5 bg-gray-100"></div>
+                                <div class="flex gap-4 relative pb-6">
+                                    <div class="w-10 h-10 rounded-full bg-karamina/20 border-4 border-white z-10 flex items-center justify-center text-karamina-hover shrink-0">
+                                        <i data-lucide="calendar-days" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-taupe text-sm">SENIN — KAMIS</h4>
+                                        <span class="text-xs font-bold text-karamina-hover">07.15 — 15.00</span>
+                                        <p class="text-xs text-gray-500">Full Day School.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 relative pb-6">
+                                    <div class="w-10 h-10 rounded-full bg-blue-50 border-4 border-white z-10 flex items-center justify-center text-blue-600 shrink-0">
+                                        <i data-lucide="clock" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-taupe text-sm">JUMAT (PAGI)</h4>
+                                        <span class="text-xs font-bold text-blue-600">07.15 — 11.30</span>
+                                        <p class="text-xs text-gray-500">KBM & Persiapan Salat Jumat.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 relative">
+                                    <div class="w-10 h-10 rounded-full bg-green-50 border-4 border-white z-10 flex items-center justify-center text-green-600 shrink-0">
+                                        <i data-lucide="trophy" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-taupe text-sm">JUMAT (SIANG)</h4>
+                                        <span class="text-xs font-bold text-green-600">13.00 — 14.30</span>
+                                        <p class="text-xs text-gray-500">Ekstrakurikuler.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 h-full">
+                            <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                                <h3 class="text-xl font-bold text-taupe flex items-center gap-2">
+                                    <i data-lucide="list-checks" class="text-karamina w-6 h-6"></i> JADWAL KEGIATAN HARIAN
+                                </h3>
+                                <span class="bg-taupe/10 text-taupe px-3 py-1 rounded-full text-xs font-bold">Harian</span>
+                            </div>
+                            <div class="space-y-0 relative">
+                                <div class="absolute left-[19px] top-2 bottom-4 w-0.5 bg-gray-100"></div>
+                                <div class="flex gap-4 relative pb-6">
+                                    <div class="w-10 h-10 rounded-full bg-karamina/20 border-4 border-white z-10 flex items-center justify-center text-karamina-hover shrink-0">
+                                        <i data-lucide="sun" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-taupe text-sm">PEMBIASAAN PAGI</h4>
+                                        <span class="text-xs font-bold text-karamina-hover">07.15 — 07.50</span>
+                                        <p class="text-xs text-gray-500">Tilawah & Murajaah Hafalan.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 relative pb-6">
+                                    <div class="w-10 h-10 rounded-full bg-blue-50 border-4 border-white z-10 flex items-center justify-center text-blue-600 shrink-0">
+                                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-taupe text-sm">KBM AKADEMIK</h4>
+                                        <span class="text-xs font-bold text-blue-600">08.00 — 11.30</span>
+                                        <p class="text-xs text-gray-500">Pembelajaran interaktif & kolaboratif.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 relative">
+                                    <div class="w-10 h-10 rounded-full bg-green-50 border-4 border-white z-10 flex items-center justify-center text-green-600 shrink-0">
+                                        <i data-lucide="coffee" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-taupe text-sm">ISHOMA</h4>
+                                        <span class="text-xs font-bold text-green-600">11.45 — 13.00</span>
+                                        <p class="text-xs text-gray-500">Salat Zuhur, Kultum & Makan Siang.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="facilities-section" class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-10">
+                        <div class="w-full md:w-auto">
+                            <span class="text-karamina font-bold tracking-widest text-xs uppercase">Sarana Prasarana</span>
+                            <h2 class="text-3xl font-serif font-bold text-taupe mt-2">Fasilitas Sekolah</h2>
+                        </div>
+                        <p class="text-gray-500 text-sm max-w-sm mt-4 md:mt-0 w-full md:w-auto">Fasilitas lengkap untuk menunjang kenyamanan dan keberhasilan proses belajar mengajar.</p>
+                    </div>
+
+                    <div class="hidden lg:grid grid-cols-4 gap-6">
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-blue-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="snowflake" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Ruang Kelas Ber-AC</h4>
+                            <p class="text-xs text-gray-500">Dingin & Kondusif</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-amber-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="library" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Perpustakaan</h4>
+                            <p class="text-xs text-gray-500">Koleksi Buku Lengkap</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-green-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="flask-conical" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Lab Sains</h4>
+                            <p class="text-xs text-gray-500">Praktikum IPA Modern</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-rose-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="languages" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Lab Bahasa</h4>
+                            <p class="text-xs text-gray-500">Audio Visual Interaktif</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-purple-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="monitor" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Lab Komputer</h4>
+                            <p class="text-xs text-gray-500">Spesifikasi Tinggi</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="presentation" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Auditorium</h4>
+                            <p class="text-xs text-gray-500">Aula Serbaguna Luas</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-red-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Ruang UKS</h4>
+                            <p class="text-xs text-gray-500">Layanan Kesehatan</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-orange-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="utensils" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Kantin Sehat</h4>
+                            <p class="text-xs text-gray-500">Halal & Higienis</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-cyan-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="trees" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Ruang Outdoor</h4>
+                            <p class="text-xs text-gray-500">Area Hijau & Asri</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-emerald-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="trophy" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Lapangan Olahraga</h4>
+                            <p class="text-xs text-gray-500">Futsal, Basket, Voli</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-teal-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Ruang Kelas</h4>
+                            <p class="text-xs text-gray-500">Modern & Tertata Rapi</p>
+                        </div>
+                        <div class="group p-6 rounded-2xl border border-gray-100 hover:border-karamina hover:shadow-lg transition cursor-default bg-taupe-bg/30">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-600 mb-4 group-hover:scale-110 transition">
+                                <i data-lucide="car" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-taupe mb-1">Area Parkir</h4>
+                            <p class="text-xs text-gray-500">Luas & Aman</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div> 
+
+        <div id="profile" class="page-section bg-white">
+            <div class="bg-taupe text-white py-12 lg:py-20 px-6 text-center">
+                <h1 class="text-2xl lg:text-4xl font-serif font-bold mb-2 lg:mb-4">Tentang Kami</h1>
+                <p class="text-gray-300 text-sm lg:text-base max-w-2xl mx-auto">Mengenal lebih dekat sejarah, visi, dan misi Al-Karamina.</p>
+            </div>
+            <div class="container mx-auto px-6 py-12">
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="rounded-2xl shadow-2xl w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl font-serif font-bold mb-4 text-taupe">Sejarah Singkat</h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed text-sm lg:text-base">
+                            Al-Karamina Islamic Science School didirikan dengan semangat untuk mencetak generasi muslim yang tidak hanya hafal Al-Qur'an, tetapi juga menguasai ilmu pengetahuan dan teknologi. Kami percaya bahwa integrasi antara iman dan ilmu adalah kunci kejayaan peradaban.
+                        </p>
+                        <div class="space-y-6">
+                            <div class="bg-taupe-bg p-6 rounded-xl border border-gray-100">
+                                <h4 class="font-bold text-taupe text-lg flex items-center gap-2 mb-2"><i data-lucide="target" class="text-karamina w-5 h-5"></i> Visi</h4>
+                                <p class="text-gray-600 text-sm italic">"Menjadi lembaga pendidikan Islam terdepan dalam mencetak pemimpin masa depan yang Qur'ani, Berwawasan Global, dan Menguasai IPTEK."</p>
+                            </div>
+                            <div class="bg-taupe-bg p-6 rounded-xl border border-gray-100">
+                                <h4 class="font-bold text-taupe text-lg flex items-center gap-2 mb-2"><i data-lucide="list-todo" class="text-karamina w-5 h-5"></i> Misi</h4>
+                                <ul class="space-y-2 text-sm text-gray-600 list-none">
+                                    <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-karamina mt-0.5"></i> Pendidikan berkualitas berbasis Tauhid.</li>
+                                    <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-karamina mt-0.5"></i> Pengembangan potensi akademik & non-akademik.</li>
+                                    <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-karamina mt-0.5"></i> Lingkungan sekolah islami & modern.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="blog" class="page-section bg-gray-50">
+             <div class="bg-white py-12 lg:py-16 px-6 text-center border-b border-gray-100">
+                <h1 class="text-2xl lg:text-4xl font-serif font-bold mb-2 lg:mb-4 text-taupe">Galeri & Berita</h1>
+                <p class="text-gray-500 text-sm lg:text-base">Dokumentasi kegiatan dan informasi terkini dari Al-Karamina.</p>
+            </div>
+            <div class="container mx-auto px-6 py-12">
+                <div class="flex items-center gap-3 mb-6">
+                     <div class="w-1 h-8 bg-karamina rounded-full"></div>
+                     <h2 class="text-2xl font-serif font-bold text-taupe">Galeri Kegiatan</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                    <div class="md:col-span-2 md:row-span-2 h-64 md:h-80 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer" onclick="openLightbox(0)">
+                        <img src="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                         <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-bold"><i data-lucide="zoom-in" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="h-32 md:h-40 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer" onclick="openLightbox(1)">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="h-32 md:h-40 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer" onclick="openLightbox(2)">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="h-32 md:h-40 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer" onclick="openLightbox(3)">
+                        <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="h-32 md:h-40 rounded-xl overflow-hidden shadow-lg group relative cursor-pointer" onclick="openLightbox(4)">
+                        <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                </div>
+            </div>
+            <div class="container mx-auto px-6 pb-16">
+                 <div class="flex items-center gap-3 mb-6">
+                     <div class="w-1 h-8 bg-karamina rounded-full"></div>
+                     <h2 class="text-2xl font-serif font-bold text-taupe">Artikel & Berita</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="news-grid">
+                    <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a783?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="h-48 object-cover">
+                        <div class="p-6 flex-grow">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                                <span>Akademik</span> • <span>10 Des 2024</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-taupe mb-3 hover:text-karamina transition">Workshop Robotik Nasional</h3>
+                            <p class="text-gray-600 text-xs lg:text-sm line-clamp-3">Siswa-siswi Al-Karamina mengikuti pelatihan robotik tingkat nasional untuk mengembangkan kemampuan STEM sejak dini.</p>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto">
+                            <a href="#" class="text-karamina-hover font-bold text-sm hover:underline">Baca Selengkapnya</a>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1475721027760-f756086f1f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="h-48 object-cover">
+                        <div class="p-6 flex-grow">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                                <span>Prestasi</span> • <span>05 Des 2024</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-taupe mb-3 hover:text-karamina transition">Juara Umum Lomba Pidato Bahasa Arab</h3>
+                            <p class="text-gray-600 text-xs lg:text-sm line-clamp-3">Selamat kepada ananda Farhan yang berhasil menyabet juara umum dalam kompetisi pidato tingkat provinsi.</p>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto">
+                            <a href="#" class="text-karamina-hover font-bold text-sm hover:underline">Baca Selengkapnya</a>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="h-48 object-cover">
+                        <div class="p-6 flex-grow">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                                <span>Kegiatan</span> • <span>01 Des 2024</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-taupe mb-3 hover:text-karamina transition">Buka Puasa Bersama & Santunan</h3>
+                            <p class="text-gray-600 text-xs lg:text-sm line-clamp-3">Kegiatan rutin tahunan untuk mempererat tali silaturahmi antar warga sekolah dan masyarakat sekitar.</p>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto">
+                            <a href="#" class="text-karamina-hover font-bold text-sm hover:underline">Baca Selengkapnya</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact" class="page-section bg-white">
+            <div class="bg-taupe text-white py-12 lg:py-16 px-6 text-center">
+                <h1 class="text-2xl lg:text-4xl font-serif font-bold mb-2 lg:mb-4">Hubungi Kami</h1>
+                <p class="text-gray-300 text-sm lg:text-base">Kami siap melayani pertanyaan Anda seputar Al-Karamina.</p>
+            </div>
+            <div class="container mx-auto px-6 py-12 lg:py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                    <div>
+                        <h2 class="text-xl lg:text-2xl font-bold text-taupe mb-6">Informasi Kontak</h2>
+                        <div class="space-y-4 lg:space-y-6">
+                            <div class="flex items-start gap-4 p-4 bg-taupe-bg rounded-lg">
+                                <i data-lucide="map-pin" class="text-karamina w-6 h-6 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-taupe text-sm lg:text-base">Alamat Sekolah</h4>
+                                    <p class="text-gray-600 text-sm">Jl. Raya Kp. Sawah No.49, Jatimulya, Kec. Cilodong, Kota Depok, Jawa Barat 16413</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-taupe-bg rounded-lg">
+                                <i data-lucide="phone" class="text-karamina w-6 h-6 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-taupe text-sm lg:text-base">Telepon & WhatsApp</h4>
+                                    <p class="text-gray-600 text-sm">0811-858-308</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-taupe-bg rounded-lg">
+                                <i data-lucide="mail" class="text-karamina w-6 h-6 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-taupe text-sm lg:text-base">Email</h4>
+                                    <p class="text-gray-600 text-sm">info@karamina.sch.id</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-[300px] lg:h-[400px] bg-gray-200 rounded-xl overflow-hidden relative shadow-md">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.981674485303!2d106.83296231477002!3d-6.396347995371536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ebe40506e789%3A0x63339129596853f3!2sJl.%20Raya%20Kp.%20Sawah%20No.49%2C%20Jatimulya%2C%20Kec.%20Cilodong%2C%20Kota%20Depok%2C%20Jawa%20Barat%2016413!5e0!3m2!1sen!2sid!4v1629876543210!5m2!1sen!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ppdb" class="page-section bg-gray-50">
+            <div class="bg-karamina text-taupe py-12 lg:py-16 px-6 text-center">
+                <h1 class="text-2xl lg:text-4xl font-serif font-bold mb-2 lg:mb-4">Pendaftaran Siswa Baru</h1>
+                <p class="font-medium text-base lg:text-lg opacity-80">Tahun Ajaran 2025/2026</p>
+            </div>
+            
+            <div class="container mx-auto px-6 py-12 lg:py-16">
+                
+                <div class="mb-16">
+                    <div class="text-center mb-8">
+                        <span class="text-karamina font-bold tracking-widest text-xs uppercase">Informasi Digital</span>
+                        <h2 class="text-2xl lg:text-3xl font-serif font-bold text-taupe mt-2">Galeri Brosur Informasi</h2>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                         <div class="w-full sm:w-[calc(33.33%-1rem)] group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+                            <div class="h-48 bg-taupe/5 flex items-center justify-center relative overflow-hidden">
+                                <img src="assets/images/brosur-karamina-1.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <button onclick="openDownloadModal('assets/images/brosur-karamina-1.jpeg')" class="bg-white text-taupe px-4 py-2 rounded-full text-xs font-bold hover:bg-karamina transition">Lihat Preview</button>
+                                </div>
+                            </div>
+                            <div class="p-4 text-center">
+                                <h4 class="font-bold text-taupe text-sm">Brosur Halaman Depan</h4>
+                            </div>
+                        </div>
+
+                        <div class="w-full sm:w-[calc(33.33%-1rem)] group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+                            <div class="h-48 bg-taupe/5 flex items-center justify-center relative overflow-hidden">
+                                <img src="assets/images/brosur-karamina-2.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <button onclick="openDownloadModal('assets/images/brosur-karamina-2.jpeg')" class="bg-white text-taupe px-4 py-2 rounded-full text-xs font-bold hover:bg-karamina transition">Lihat Preview</button>
+                                </div>
+                            </div>
+                            <div class="p-4 text-center">
+                                <h4 class="font-bold text-taupe text-sm">Profil & Visi Misi</h4>
+                            </div>
+                        </div>
+
+                        <div class="w-full sm:w-[calc(33.33%-1rem)] group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+                            <div class="h-48 bg-taupe/5 flex items-center justify-center relative overflow-hidden">
+                                <img src="assets/images/brosur-karamina-3.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <button onclick="openDownloadModal('assets/images/brosur-karamina-3.jpeg')" class="bg-white text-taupe px-4 py-2 rounded-full text-xs font-bold hover:bg-karamina transition">Lihat Preview</button>
+                                </div>
+                            </div>
+                            <div class="p-4 text-center">
+                                <h4 class="font-bold text-taupe text-sm">Program Unggulan</h4>
+                            </div>
+                        </div>
+
+                        <div class="w-full sm:w-[calc(33.33%-1rem)] group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+                            <div class="h-48 bg-taupe/5 flex items-center justify-center relative overflow-hidden">
+                                <img src="assets/images/brosur-karamina-4.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <button onclick="openDownloadModal('assets/images/brosur-karamina-4.jpg')" class="bg-white text-taupe px-4 py-2 rounded-full text-xs font-bold hover:bg-karamina transition">Lihat Preview</button>
+                                </div>
+                            </div>
+                            <div class="p-4 text-center">
+                                <h4 class="font-bold text-taupe text-sm">Informasi Kegiatan</h4>
+                            </div>
+                        </div>
+
+                        <div class="w-full sm:w-[calc(33.33%-1rem)] group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+                            <div class="h-48 bg-taupe/5 flex items-center justify-center relative overflow-hidden">
+                                <img src="assets/images/brosur-karamina-5.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <button onclick="openDownloadModal('assets/images/brosur-karamina-5.jpg')" class="bg-white text-taupe px-4 py-2 rounded-full text-xs font-bold hover:bg-karamina transition">Lihat Preview</button>
+                                </div>
+                            </div>
+                            <div class="p-4 text-center">
+                                <h4 class="font-bold text-taupe text-sm">Kontak & Pendaftaran</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-5xl mx-auto mb-16">
+                    <div class="text-center mb-10">
+                         <span class="text-karamina font-bold tracking-widest text-xs uppercase">Proses Mudah</span>
+                        <h2 class="text-2xl lg:text-3xl font-serif font-bold text-taupe mb-4">Alur Pendaftaran</h2>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 hidden md:block z-0"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+                            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                                <div class="w-12 h-12 bg-karamina text-taupe rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4 border-4 border-white shadow-lg">1</div>
+                                <h4 class="font-bold text-taupe mb-1">Daftar Online</h4>
+                                <p class="text-xs text-gray-500">Isi formulir & upload berkas via website/WA.</p>
+                            </div>
+                             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                                <div class="w-12 h-12 bg-white text-taupe border-2 border-karamina rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4 shadow-lg">2</div>
+                                <h4 class="font-bold text-taupe mb-1">Observasi</h4>
+                                <p class="text-xs text-gray-500">Tes akademik & wawancara orang tua.</p>
+                            </div>
+                             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                                <div class="w-12 h-12 bg-white text-taupe border-2 border-karamina rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4 shadow-lg">3</div>
+                                <h4 class="font-bold text-taupe mb-1">Pengumuman</h4>
+                                <p class="text-xs text-gray-500">Hasil seleksi diumumkan via WhatsApp/Email.</p>
+                            </div>
+                             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                                <div class="w-12 h-12 bg-white text-taupe border-2 border-karamina rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4 shadow-lg">4</div>
+                                <h4 class="font-bold text-taupe mb-1">Daftar Ulang</h4>
+                                <p class="text-xs text-gray-500">Pembayaran uang pangkal & ukur seragam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-16">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl lg:text-3xl font-serif font-bold text-taupe mt-2">Rincian Biaya</h2>
+                        <div class="w-20 h-1 bg-karamina mx-auto rounded-full mt-2"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                        
+                        <div class="bg-karamina p-6 rounded-xl border-4 border-white text-center flex flex-col items-center justify-between h-full shadow-md">
+                            <div class="text-taupe mb-2"><i data-lucide="book" class="w-10 h-10 mx-auto"></i></div>
+                            <h3 class="font-bold text-white uppercase text-lg mb-4">BUKU PAKET</h3>
+                            <div class="bg-gray-500 text-white font-bold py-2 px-6 rounded shadow-sm w-full">Rp 1.650.000</div>
+                        </div>
+
+                        <div class="bg-karamina p-6 rounded-xl border-4 border-white text-center flex flex-col items-center justify-between h-full shadow-md">
+                            <div class="text-taupe mb-2"><i data-lucide="briefcase" class="w-10 h-10 mx-auto"></i></div>
+                            <h3 class="font-bold text-white uppercase text-lg mb-4">SPP (SUMBANGAN PENGEMBANGAN PENDIDIKAN)</h3>
+                            <div class="bg-gray-500 text-white font-bold py-2 px-6 rounded shadow-sm w-full">Rp 1.800.000</div>
+                        </div>
+
+                        <div class="bg-karamina p-6 rounded-xl border-4 border-white text-center flex flex-col items-center justify-between h-full shadow-md">
+                            <div class="text-taupe mb-2"><i data-lucide="shirt" class="w-10 h-10 mx-auto"></i></div>
+                            <h3 class="font-bold text-white uppercase text-lg mb-4">SERAGAM SEKOLAH</h3>
+                            <div class="bg-gray-500 text-white font-bold py-2 px-6 rounded shadow-sm w-full">Rp 1.750.000</div>
+                        </div>
+
+                        <div class="bg-karamina p-6 rounded-xl border-4 border-white text-center flex flex-col items-center justify-between h-full shadow-md">
+                            <div class="text-taupe mb-2"><i data-lucide="trending-up" class="w-10 h-10 mx-auto"></i></div>
+                            <h3 class="font-bold text-white uppercase text-lg mb-2">PENGEMBANGAN OPERASIONAL SEKOLAH</h3>
+                            <p class="text-white text-xs mb-4 leading-relaxed">Infrastruktur, Sarana Prasarana Kelas, Laboratorium IPA, Laboratorium Komputer, Laboratorium Bahasa</p>
+                            <div class="bg-gray-500 text-white font-bold py-2 px-6 rounded shadow-sm w-full">Rp 16.500.000</div>
+                        </div>
+
+                        <div class="bg-karamina p-6 rounded-xl border-4 border-white text-center flex flex-col items-center justify-between h-full shadow-md">
+                            <div class="text-taupe mb-2"><i data-lucide="clock" class="w-10 h-10 mx-auto"></i></div>
+                            <h3 class="font-bold text-white uppercase text-lg mb-2">BIAYA KEGIATAN SETAHUN</h3>
+                            <p class="text-white text-xs mb-4 leading-relaxed">Praktek IPA, Biologi, Praktek Bahasa (Native), STS & SAS, Outing Class</p>
+                            <div class="bg-gray-500 text-white font-bold py-2 px-6 rounded shadow-sm w-full">Rp 3.800.000</div>
+                        </div>
+
+                        <div class="bg-karamina p-6 rounded-xl border-4 border-white text-center flex flex-col items-center justify-between h-full shadow-md">
+                            <div class="text-taupe mb-2"><i data-lucide="receipt" class="w-10 h-10 mx-auto"></i></div>
+                            <h3 class="font-bold text-white uppercase text-lg mb-2">TOTAL BIAYA</h3>
+                            <p class="text-white text-xs mb-4 leading-relaxed">Total biaya belum termasuk formulir</p>
+                            <div class="bg-gray-500 text-white font-bold py-2 px-6 rounded shadow-sm w-full">Rp 25.500.000</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mb-16">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl lg:text-3xl font-serif font-bold text-taupe mt-2">Sistem Pembayaran</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center">
+                            <div class="bg-orange-100 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
+                                <div class="bg-orange-500 text-white font-bold px-4 py-2 rounded rotate-[-5deg] shadow-lg text-xl">10% DISCOUNT</div>
+                            </div>
+                            <p class="text-taupe font-medium text-lg">Potongan 10% untuk pembayaran tunai</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center">
+                            <div class="bg-gray-100 w-full h-32 rounded-lg mb-4 flex items-center justify-center relative">
+                                <i data-lucide="calendar-days" class="w-16 h-16 text-blue-600"></i>
+                                <div class="absolute bottom-2 right-10 bg-yellow-400 rounded-full p-2 border-2 border-white">
+                                    <i data-lucide="dollar-sign" class="w-4 h-4 text-white"></i>
+                                </div>
+                            </div>
+                            <p class="text-taupe font-medium text-lg">Pembayaran melalui cicilan (sd Februari 2025)</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col items-center text-center">
+                            <div class="bg-gradient-to-r from-yellow-100 to-yellow-50 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
+                                <span class="text-5xl font-bold text-yellow-600 mr-2">10%</span>
+                                <span class="text-xl font-bold text-yellow-600 mt-2">OFF</span>
+                            </div>
+                            <p class="text-taupe font-bold text-lg mb-4">Potongan 10% untuk Juara I & II lomba OSN</p>
+                            <ul class="text-left text-xs text-gray-600 space-y-1 w-full px-4 list-disc">
+                                <li>Pembayaran ke-1: Rp. 5.500.000,-</li>
+                                <li>Pembayaran ke-2: Rp. 5.000.000,-</li>
+                                <li>Pembayaran ke-3: Rp. 5.000.000,-</li>
+                                <li>Pembayaran ke-4: Rp. 5.000.000,-</li>
+                                <li>Pembayaran ke-5: Rp. 5.000.000,-</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 text-center">
+                    <h3 class="font-bold text-lg text-taupe mb-2">Siap Mendaftar?</h3>
+                    <p class="text-gray-600 text-sm mb-6 max-w-lg mx-auto">Silakan hubungi panitia PPDB kami melalui WhatsApp untuk konfirmasi kuota atau langsung mendaftar.</p>
+                    
+                    <a href="https://wa.me/62811858308?text=Assalamu%27alaikum%20Admin%20Al-Karamina%2C%20saya%20tertarik%20untuk%20mendaftar%20PPDB%20Tahun%20Ajaran%20Baru%2E" target="_blank" class="inline-flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold transition transform hover:-translate-y-1 shadow-lg group">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        <span>Chat WhatsApp Admin PPDB</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-taupe text-white pt-12 lg:pt-16 pb-24 lg:pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12 mb-8 lg:mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-karamina rounded flex items-center justify-center text-taupe font-serif font-bold text-xl">A</div>
+                        <span class="text-xl font-bold">Al-Karamina</span>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 max-w-sm">
+                        Sekolah Islam modern yang mengedepankan adab, ilmu, dan teknologi.
+                    </p>
+                </div>
+                <div class="hidden lg:block">
+                    <h4 class="text-lg font-bold mb-6 text-karamina">Jelajahi</h4>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li><button onclick="showPage('home')" class="hover:text-karamina transition">Beranda</button></li>
+                        <li><button onclick="showPage('profile')" class="hover:text-karamina transition">Tentang Kami</button></li>
+                        <li><button onclick="showPage('ppdb')" class="hover:text-karamina transition">Info Pendaftaran</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 text-karamina">Kontak</h4>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 mt-1 text-karamina"></i> <span>Jl. Raya Kp. Sawah No.49, Depok</span></li>
+                        <li class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4 text-karamina"></i> <span>0811-858-308</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-taupe-light/30 pt-8 text-center md:text-left text-xs text-gray-400">
+                <p>© 2025 Al-Karamina Islamic Science School. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white hover:text-karamina z-50"><i data-lucide="x" class="w-10 h-10"></i></button>
+        <button onclick="changeImage(-1)" class="lightbox-nav absolute left-2 md:left-8 text-white hover:text-karamina p-2 rounded-full z-50"><i data-lucide="chevron-left" class="w-10 h-10"></i></button>
+        <button onclick="changeImage(1)" class="lightbox-nav absolute right-2 md:right-8 text-white hover:text-karamina p-2 rounded-full z-50"><i data-lucide="chevron-right" class="w-10 h-10"></i></button>
+        <div class="relative max-w-5xl w-full max-h-screen flex flex-col items-center">
+            <img id="lightbox-img" src="" class="w-auto h-auto max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl border border-white/10">
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 1. AUTO HIDE HEADER
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                header.classList.add('hide');
+            } else {
+                header.classList.remove('hide');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // 2. SPA LOGIC
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) selectedPage.classList.add('active');
+
+            // Nav Active States
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            const dLink = document.getElementById('nav-' + pageId);
+            if(dLink) dLink.classList.add('active');
+
+            document.querySelectorAll('.mobile-nav-item').forEach(l => l.classList.remove('active'));
+            const mLink = document.getElementById('mob-' + pageId);
+            if(mLink) mLink.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        function scrollToFacilities() {
+            showPage('home');
+            setTimeout(() => {
+                const element = document.getElementById('facilities-section');
+                if (element) element.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // 3. LIGHTBOX LOGIC
+        let currentImageIndex = 0;
+        let galleryImages = [];
+        function initGallery() {
+            const imgs = document.querySelectorAll('.gallery-img');
+            galleryImages = Array.from(imgs).map(img => img.src);
+        }
+        function openLightbox(indexOrSrc) {
+            initGallery();
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            
+            // Check if input is index (number) or direct src (string)
+            if (typeof indexOrSrc === 'number') {
+                currentImageIndex = indexOrSrc;
+                img.src = galleryImages[currentImageIndex];
+            } else {
+                img.src = indexOrSrc; // For direct image opening
+            }
+            
+            lb.classList.add('active');
+        }
+
+        function openDownloadModal(src) {
+             // Re-using lightbox for preview
+             openLightbox(src);
+        }
+
+        function changeImage(direction) {
+            if (galleryImages.length === 0) return;
+            currentImageIndex += direction;
+            if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+            if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
+            const img = document.getElementById('lightbox-img');
+            img.style.opacity = '0.5';
+            setTimeout(() => {
+                img.src = galleryImages[currentImageIndex];
+                img.style.opacity = '1';
+            }, 200);
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // 4. SLIDESHOW LOGIC
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+        const slideInterval = 5000; 
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        setInterval(nextSlide, slideInterval);
+    </script>
+</body>
+</html>
